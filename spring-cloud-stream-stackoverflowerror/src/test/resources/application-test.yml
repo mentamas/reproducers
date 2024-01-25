@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    stream:
+      output-bindings: publishMessage
+
+      bindings:
+        publishMessage-out-0:
+          destination: test.uppercase
+          binder: solaceBinder
+          contentType: application/json
+
+      binders:
+        solaceBinder:
+          type: solace
+          environment:
+            solace:
+              java:
+                apiProperties:
+                  AUTHENTICATION_SCHEME: AUTHENTICATION_SCHEME_BASIC
+                client-username: ${SOLACE_CLIENT_USERNAME}
+                client-password: ${SOLACE_CLIENT_PASSWORD}
+                host: ${SOLACE_BROKER_HOST}
+                msgVpn: ${SOLACE_MESSAGE_VPN}
+                connect-retries: 0
+                connect-retries-per-host: 0
+                reconnect-retries: 2
+                reconnect-retry-wait-in-millis: 1000
